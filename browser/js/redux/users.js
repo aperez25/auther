@@ -7,6 +7,7 @@ const CREATE     = 'CREATE_USER';
 export const REMOVE = 'REMOVE_USER';
 const UPDATE     = 'UPDATE_USER';
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+const LOG_OUT = 'LOG_OUT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -15,6 +16,7 @@ const create = user  => ({ type: CREATE, user });
 const remove = id    => ({ type: REMOVE, id });
 const update = user  => ({ type: UPDATE, user });
 const setUser = user => ({ type: SET_CURRENT_USER, user });
+const logOut = users => ({ type: LOG_OUT, users});
 
 
 /* ------------       REDUCER     ------------------ */
@@ -41,7 +43,11 @@ export default function reducer (users = [], action) {
     case SET_CURRENT_USER:
       newUsers.currentUser = action.user;
       return newUsers;
-    
+
+    case LOG_OUT:
+      newUsers.currentUser = null;
+      return newUsers;
+
     default:
       return users;
   }
@@ -49,6 +55,12 @@ export default function reducer (users = [], action) {
 
 
 /* ------------       DISPATCHERS     ------------------ */
+
+export const signOut = () => dispatch => {
+  axios.put('/api/users')
+        .then(res => dispatch(logOut(res.data)))
+        .catch(err => console.error(err));
+}
 
 export const onSubmit = (user) => dispatch => {
   console.log(user)
