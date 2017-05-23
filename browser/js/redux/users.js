@@ -57,7 +57,7 @@ export default function reducer (users = [], action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const signOut = () => dispatch => {
-  axios.put('/api/users')
+  axios.get('/api/users')
         .then(res => dispatch(logOut(res.data)))
         .catch(err => console.error(err));
 }

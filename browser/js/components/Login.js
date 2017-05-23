@@ -36,7 +36,7 @@ class Login extends React.Component {
                   required
                 />
             </div>
-            <button type="submit" className="btn btn-block btn-primary">{message}</button>
+            <button type="submit" disabled={this.props.signedInUser} className="btn btn-block btn-primary">{message}</button>
           </form>
         </div>
         <div className="or buffer">
@@ -73,7 +73,7 @@ class Login extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = () => ({ message: 'Log in' });
+const mapState = (state) => ({ message: 'Log in', signedInUser: state.users.currentUser });
 const mapDispatch = function(dispatch) {
   return {
     onSubmit: (user) => dispatch(onSubmit(user))
