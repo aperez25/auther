@@ -12,4 +12,6 @@ router.use('/logout', require('./logout/logout.router'));
 
 router.use('/signup', require('./signup/signup.router'));
 
+router.use('/auth', require('./auth/auth.router'));
+
 module.exports = router;

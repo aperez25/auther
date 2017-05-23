@@ -3,6 +3,7 @@
 var app = require('express')();
 var path = require('path');
 var session = require('express-session');
+var passport = require('passport');
 var User = require('../api/users/user.model');
 
 // "Enhancing" middleware (does not send response, server-side effects only)
@@ -27,6 +28,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api', require('../api/api.router'));
 
