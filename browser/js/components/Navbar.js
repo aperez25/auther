@@ -36,6 +36,7 @@ class Navbar extends React.Component {
                 <Link to="/stories" activeClassName="active">stories</Link>
               </li>
             </ul>
+            <div><p> {this.props.signedInUser && this.props.signedInUser.name} </p></div>
             { this.renderLogout() }
             { this.renderLoginSignup() }
           </div>
@@ -74,7 +75,11 @@ class Navbar extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapProps = null;
+const mapProps = (state) => {
+  return {
+    signedInUser: state.users.currentUser
+  }
+};
 
 const mapDispatch = dispatch => ({
   logout: () => {

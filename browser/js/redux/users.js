@@ -6,7 +6,7 @@ const INITIALIZE = 'INITIALIZE_USERS';
 const CREATE     = 'CREATE_USER';
 export const REMOVE = 'REMOVE_USER';
 const UPDATE     = 'UPDATE_USER';
-
+const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -14,11 +14,14 @@ const init  = users => ({ type: INITIALIZE, users });
 const create = user  => ({ type: CREATE, user });
 const remove = id    => ({ type: REMOVE, id });
 const update = user  => ({ type: UPDATE, user });
+const setUser = user => ({ type: SET_CURRENT_USER, user });
 
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (users = [], action) {
+  const newUsers = users.slice();
+
   switch (action.type) {
 
     case INITIALIZE:
@@ -35,6 +38,10 @@ export default function reducer (users = [], action) {
         action.user.id === user.id ? action.user : user
       ));
 
+    case SET_CURRENT_USER:
+      newUsers.currentUser = action.user;
+      return newUsers;
+    
     default:
       return users;
   }
@@ -42,6 +49,13 @@ export default function reducer (users = [], action) {
 
 
 /* ------------       DISPATCHERS     ------------------ */
+
+export const onSubmit = (user) => dispatch => {
+  console.log(user)
+  axios.post('/api/login', user)
+        .then(res => dispatch(setUser(res.data)))
+        .catch(err => console.error('No user found', err));
+}
 
 export const fetchUsers = () => dispatch => {
   axios.get('/api/users')
